@@ -1,0 +1,30 @@
+name: WinForms Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_id:
+        description: 'Build number'
+        required: true
+        type: string
+      build_tag:
+        description: 'Build tag'
+        required: true
+        type: tag
+
+jobs:
+  build_publish:
+    name: Publish Winform
+    runs-on: windows-lastest
+
+    steps:
+    - name: Chechout
+      uses: actions/checkout@main
+      with:
+        fetch-depth: 0
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.3.1
+
+    - name: build the app
+      run: msbuild /t:publish
